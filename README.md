@@ -25,7 +25,7 @@ It can be used to prevent deletions to a particular file or files depending on y
 ```
       - name: Get Git log stats for this PR
         id: git-log-stats
-        uses: IMGARENA/gh-action-build-info-file@v1
+        uses: IMGARENA/gh-action-git-log-stats@v1
         with:
           path: 'src/super_important_stuff'
 
