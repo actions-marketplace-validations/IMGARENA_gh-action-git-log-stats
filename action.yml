@@ -1,5 +1,5 @@
 name: "Git Log stats"
-description: "This action will provide outputs relating to files changed, lines inserted and lines deleted based off of chosen commits and optionally a path."
+description: "Given a start and end commit, calculate Git log stats."
 branding:
   icon: "bar-chart-2"
   color: "white"
