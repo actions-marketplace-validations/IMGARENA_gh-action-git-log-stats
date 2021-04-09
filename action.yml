@@ -1,0 +1,35 @@
+name: "Git Log stats"
+description: "This action will provide outputs relating to files changed, lines inserted and lines deleted based off of chosen commits and optionally a path."
+branding:
+  icon: "bar-chart-2"
+  color: "white"
+inputs:
+  start-commit:
+    description: "Start Commit"
+    required: false
+    default: ${{ github.event.pull_request.base.sha }}
+  end-commit:
+    description: "End Commit"
+    required: false
+    default: ${{ github.event.pull_request.head.sha }}
+  path:
+    description: "Path"
+    required: false
+    default: ""
+outputs:
+  FILES_CHANGED:
+    description: "Count of files changed"
+    value: ${{ steps.git-log-stats.outputs.FILES_CHANGED }}
+  LINES_INSERTED:
+    description: "Count of lines inserted"
+    value: ${{ steps.git-log-stats.outputs.LINES_INSERTED }}
+  LINES_DELETED:
+    description: "Count of lines deleted"
+    value: ${{ steps.git-log-stats.outputs.LINES_DELETED }}
+runs:
+  using: "composite"
+  steps:
+    - id: git-log-stats
+      run: >
+        git log --shortstat ${{ inputs.start-commit }} ${{ inputs.end-commit }} ${{ inputs.path }} | grep "files changed" | awk 'BEGIN {files=0; inserted=0; deleted=0} {files+=$1; inserted+=$4; deleted+=$6} END {print "::set-output name=FILES_CHANGED::" files "\n::set-output name=LINES_INSERTED::" inserted "\n::set-output name=LINES_DELETED::" deleted}'
+      shell: bash
